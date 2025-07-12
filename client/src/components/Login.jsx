@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useUser } from "../contexts/UserContext";
 
 function Login() {
   const [tab, setTab] = useState("login");
@@ -11,7 +11,7 @@ function Login() {
   const [signupPassword, setSignupPassword] = useState("");
   const [message, setMessage] = useState("");
 
-    
+  const { setUser } = useUser();
     const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -32,7 +32,9 @@ function Login() {
     });
     const data = await res.json();
     if (res.ok) {
-      setMessage('Logged in! Welcome, ' + (data.user?.name || data.user?.email));
+        setUser(data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        setMessage('Logged in! Welcome, ' + (data.user?.name || data.user?.email));
         setTimeout(() => navigate('/'), 1000); // Redirect after 1s delay
 
       // Optionally: save user info/token to localStorage here
@@ -64,6 +66,8 @@ const handleSignup = async (e) => {
     const data = await res.json();
     if (res.ok) {
       setMessage('Account created! Welcome, ' + (data.user?.name || data.user?.email));
+      setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
       setTimeout(() => navigate('/'), 1000); // Redirect after 1s delay
       // Optionally: auto-login or redirect here
     } else {
