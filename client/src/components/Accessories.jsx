@@ -1,75 +1,51 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 
 function Accessories({ cart, setCart }) {
-  const [likes, setLikes] = useState({})
+  const [likes, setLikes] = useState({});
+  const [accessoriesProducts, setAccessoriesProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const accessoriesProducts = [
-    {
-      id: 301,
-      name: 'Leather Belt',
-      price: 89,
-      rating: 4.8,
-      reviews: 110,
-      image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 302,
-      name: 'Wrist Watch',
-      price: 299,
-      rating: 4.9,
-      reviews: 150,
-      image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 303,
-      name: 'Silk Tie',
-      price: 59,
-      rating: 4.7,
-      reviews: 80,
-      image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 304,
-      name: 'Sunglasses',
-      price: 129,
-      rating: 4.6,
-      reviews: 95,
-      image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 305,
-      name: 'Woolen Cap',
-      price: 49,
-      rating: 4.5,
-      reviews: 60,
-      image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80',
-    },
-  ]
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://localhost:5000/api/products/accessories?page=${page}&limit=50`)
+      .then(res => res.json())
+      .then(data => {
+        setAccessoriesProducts(data.products);
+        setTotalPages(data.totalPages);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [page]);
 
   const toggleLike = (id) => {
-    setLikes(likes => ({ ...likes, [id]: !likes[id] }))
-  }
+    setLikes(likes => ({ ...likes, [id]: !likes[id] }));
+  };
+
   const addToCart = (product) => {
-    setCart(cart => [...cart, product])
-  }
+    setCart(cart => [...cart, product]);
+  };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div>
-      <h2 style={{textAlign: 'left', marginBottom: '1.5rem'}}>Accessories Collection</h2>
+      <h2 style={{ textAlign: 'left', marginBottom: '1.5rem' }}>Accessories Collection</h2>
       <div className="product-grid">
         {accessoriesProducts.map(product => (
-          <div className="product-card" key={product.id}>
-            <button className="like-btn" onClick={() => toggleLike(product.id)}>
-              {likes[product.id] ? '❤️' : '🤍'}
+          <div className="product-card" key={product._id}>
+            <button className="like-btn" onClick={() => toggleLike(product._id)}>
+              {likes[product._id] ? '❤️' : '🤍'}
             </button>
-            <img src={product.image} alt={product.name} className="product-img" />
+            <img
+              src={Array.isArray(product.images) ? product.images[0] : product.images}
+              alt={product.name}
+              className="product-img"
+            />
             <div className="product-info">
               <div className="product-name">{product.name}</div>
-              <div className="product-price">${product.price}</div>
-              <div className="product-rating">
-                {'★'.repeat(Math.round(product.rating))}
-                <span className="product-reviews">({product.reviews})</span>
-              </div>
+              <div className="product-price">₹{product.price}</div>
               <button className="add-cart-btn" onClick={() => addToCart(product)}>
                 Add to Cart
               </button>
@@ -77,8 +53,14 @@ function Accessories({ cart, setCart }) {
           </div>
         ))}
       </div>
+
+      <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+        <button onClick={() => setPage(page - 1)} disabled={page === 1}>Prev</button>
+        <span style={{ margin: '0 1rem' }}>Page {page} of {totalPages}</span>
+        <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>Next</button>
+      </div>
     </div>
-  )
+  );
 }
 
 export default Accessories;
