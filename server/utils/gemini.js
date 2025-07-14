@@ -3,7 +3,6 @@ const { GoogleGenAI } = require('@google/genai');
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-// Helper: Convert image file to base64
 function fileToBase64(filePath) {
   return fs.readFileSync(filePath, { encoding: 'base64' });
 }
@@ -11,7 +10,6 @@ function fileToBase64(filePath) {
 exports.callGeminiAPI = async (message, imageFile) => {
   const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
-  // System prompt for strict JSON output
   const systemPrompt = `
 You are a professional shopping assistant.
 Given a user message and an optional image, analyze the style and suggest up to 10 broad, general words or phrases that describe the types of clothes, garment features, or colors that would match the user's request or style.
@@ -28,13 +26,11 @@ Example:
 }
 `;
 
-  // Prepare prompt
   const prompt = [
     { text: systemPrompt },
     { text: message }
   ];
 
-  // Add image if present
   if (imageFile) {
     const base64Image = fileToBase64(imageFile.path);
     prompt.push({
@@ -45,16 +41,13 @@ Example:
     });
   }
 
-  // Call Gemini
   const result = await genAI.models.generateContent({
     model: "gemini-2.5-flash",
     contents: [{ role: "user", parts: prompt }]
   });
 
-  // Get Gemini's response text
   let replyText = result.candidates[0].content.parts[0].text;
 
-  // Remove code fences if present (e.g. ``````)
 if (replyText.startsWith('```')) {
   replyText = replyText.replace(/``````/gi, '').trim();
 }
@@ -68,7 +61,6 @@ if (replyText.startsWith('```')) {
       ? parsed.recommendations.map(s => s.trim()).filter(Boolean)
       : [];
   } catch (e) {
-    // Fallback: treat the whole text as reply, no recommendations
     reply = replyText;
     recommendations = [];
   }

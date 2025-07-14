@@ -12,11 +12,14 @@ function extractReplyAndRecommendations(rawReply, rawRecommendations) {
   if (
     Array.isArray(rawRecommendations) &&
     rawRecommendations.length === 0 &&
-    typeof rawReply === 'string' &&
-    rawReply.trim().startsWith('```')
+    typeof rawReply === 'string'
   ) {
     let cleaned = rawReply.trim();
-    cleaned = cleaned.replace(/^``````$/i, '').trim();
+
+    cleaned = cleaned.replace(/^```json\s*/i, '');
+    cleaned = cleaned.replace(/^```\s*/, ''); 
+    cleaned = cleaned.replace(/```$/, '');
+
     try {
       const parsed = JSON.parse(cleaned);
       reply = parsed.reply || cleaned;
@@ -43,6 +46,7 @@ router.post('/', upload.single('image'), async (req, res) => {
     if (Array.isArray(recommendations) && recommendations.length > 0) {
       const orConditions = [];
       for (const r of recommendations) {
+        // Escape special characters in the recommendation string for regex safety
         const safe = r.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         orConditions.push({ title: { $regex: safe, $options: 'i' } });
         orConditions.push({ description: { $regex: safe, $options: 'i' } });

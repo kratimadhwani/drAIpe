@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import fashionGroupImg from '../assets/main pge.jpg';
+import { MdDeviceHub } from "react-icons/md"; // Example: connected nodes
+import { Link } from 'react-router-dom'
+
 
 const products = [
   {
@@ -7,7 +11,7 @@ const products = [
     price: 432,
     rating: 4.8,
     reviews: 122,
-    image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80',
+    image: 'https://m.media-amazon.com/images/I/51M6utSrO8L._SY679_.jpg',
   },
   {
     id: 2,
@@ -15,7 +19,7 @@ const products = [
     price: 432,
     rating: 4.7,
     reviews: 112,
-    image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80',
+    image: 'https://chriscross.in/cdn/shop/files/ChrisCrossBlackCottonT-Shirt.jpg?v=1740994605',
   },
   {
     id: 3,
@@ -23,7 +27,7 @@ const products = [
     price: 432,
     rating: 4.6,
     reviews: 98,
-    image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    image: 'https://m.media-amazon.com/images/I/71i4TQF10cL._UY1100_.jpg',
   },
   {
     id: 4,
@@ -31,15 +35,7 @@ const products = [
     price: 432,
     rating: 4.9,
     reviews: 321,
-    image: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 5,
-    name: 'Black Sunglasses',
-    price: 432,
-    rating: 4.5,
-    reviews: 87,
-    image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    image: 'https://www.shutterstock.com/image-photo/black-shoes-isolated-on-white-600nw-2241492009.jpg',
   },
 ]
 
@@ -57,33 +53,83 @@ function Home({ cart, setCart }) {
     <div>
       <div className="banner">
         <div className="banner-content">
-          <h1>Get Ready for the Ultimate Black Friday Fashion Extravaganza</h1>
-          <button className="shop-now">Shop Now</button>
+          <h1>Not Sure What You Need? Let AI Nudge You Right.</h1>
+          <Link to="/ai-suggestion"><button className="shop-now">DR<span style={{ color: "#ec5a0d", fontWeight: "bold" }}>AI</span>PE ME</button></Link>
         </div>
         <div className="banner-illustration">
-          <span role="img" aria-label="fashion person" style={{fontSize: '6rem'}}>🧑‍🎤</span>
+          <span
+  aria-label="technology icon"
+  style={{
+    fontSize: '6rem', color: '#ffffffff', verticalAlign: 'middle'
+  }}
+>
+    <MdDeviceHub />
+</span>
         </div>
       </div>
-      <div className="product-grid">
-        {products.map(product => (
-          <div className="product-card" key={product.id}>
-            <button className="like-btn" onClick={() => toggleLike(product.id)}>
-              {likes[product.id] ? '❤️' : '🤍'}
-            </button>
-            <img src={product.image} alt={product.name} className="product-img" />
-            <div className="product-info">
-              <div className="product-name">{product.name}</div>
-              <div className="product-price">${product.price}</div>
-              <div className="product-rating">
-                {'★'.repeat(Math.round(product.rating))}
-                <span className="product-reviews">({product.reviews})</span>
-              </div>
-              <button className="add-cart-btn" onClick={() => addToCart(product)}>
-                Add to Cart
-              </button>
-            </div>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(320px, 480px) 1fr',
+          alignItems: 'center',
+          gap: '3rem',
+          marginTop: 32,
+          justifyContent: 'center',
+        }}
+      >
+        {/* 2x2 grid of product cards (left) */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gridTemplateRows: '1fr 1fr',
+            gap: '1.5rem',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: 480,
+          }}
+        >
+          {products.map(product => (
+  <div className="product-card" key={product.id}>
+    <button className="like-btn" onClick={() => toggleLike(product.id)}>
+      {likes[product.id] ? '❤️' : '🤍'}
+    </button>
+    <img src={product.image} alt={product.name} className="product-img" />
+    <div className="product-info">
+      <div className="product-name">{product.name}</div>
+      <div className="product-price">${product.price}</div>
+      <button
+        className="add-cart-btn"
+        onClick={() => addToCart(product)}
+        style={{
+          width: '100%',
+          marginTop: 12,
+          padding: '10px 0',
+          border: 'none',
+          backgroundColor: '#000000ff',
+          color: '#fff',
+          borderRadius: 4,
+          cursor: 'pointer',
+          fontWeight: 600,
+          transition: 'background-color 0.3s ease',
+          boxSizing: 'border-box',
+        }}
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+))}
+
+        </div>
+        {/* Big image and heading (right) */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img src={fashionGroupImg} alt="Fashion Group" style={{ width: '100%', maxWidth: 480, marginBottom: 24 }} />
+          <div style={{ fontWeight: 900, fontSize: '2.5rem', textAlign: 'center', marginTop: 12, letterSpacing: '0.02em' }}>
+            LET <span style={{ color: '#ec5a0d' }}>AI</span> HANDLE THE<br />FASHION FOMO.
           </div>
-        ))}
+        </div>
       </div>
     </div>
   )

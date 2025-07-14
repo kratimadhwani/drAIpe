@@ -49,14 +49,12 @@ router.get('/women', async (req, res) => {
   }
 });
 
-// GET /api/products/accessories
 router.get('/accessories', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 50;
     const skip = (page - 1) * limit;
 
-    // Search for keywords in description or name
     const keywordRegex = /(accessor(y|ies)|belt|hat|cap|scarf|sunglass|watch|bag|wallet|glove|tie|sock|bracelet|hairband|headband|brooch|cufflink|keychain)/i;
 
     const query = {
@@ -80,14 +78,12 @@ router.get('/accessories', async (req, res) => {
   }
 });
 
-// GET /api/products/jewellery
 router.get('/jewellery', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 50;
     const skip = (page - 1) * limit;
 
-    // Search for jewellery-related keywords
     const keywordRegex = /(jewel(l)?er(y|ies)|necklace|ring|earring|bracelet|bangle|pendant|chain|anklet|nosepin|brooch)/i;
 
     const query = {
@@ -111,14 +107,35 @@ router.get('/jewellery', async (req, res) => {
   }
 });
 
-
+// GET /api/products/all?page=1&limit=50
 router.get('/all', async (req, res) => {
   try {
-    const allProducts = await Product.find({});
-    res.json(allProducts);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 50;
+    const skip = (page - 1) * limit;
+
+    console.log(skip, limit);
+
+    // Fetch products with pagination
+    const [products, total] = await Promise.all([
+      Product.find().skip(skip).limit(limit),
+      Product.countDocuments(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      products,
+      totalPages,
+      currentPage: page,
+      totalProducts: total,
+    });
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+module.exports = router;
+
 
 module.exports = router;

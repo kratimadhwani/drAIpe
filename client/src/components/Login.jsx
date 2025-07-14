@@ -37,7 +37,6 @@ function Login() {
         setMessage('Logged in! Welcome, ' + (data.user?.name || data.user?.email));
         setTimeout(() => navigate('/'), 1000); // Redirect after 1s delay
 
-      // Optionally: save user info/token to localStorage here
     } else {
       setMessage(data.error || 'Login failed.');
     }
@@ -68,8 +67,7 @@ const handleSignup = async (e) => {
       setMessage('Account created! Welcome, ' + (data.user?.name || data.user?.email));
       setUser(data.user);
       localStorage.setItem('user', JSON.stringify(data.user));
-      setTimeout(() => navigate('/'), 1000); // Redirect after 1s delay
-      // Optionally: auto-login or redirect here
+      setTimeout(() => navigate('/'), 1000);
     } else {
       setMessage(data.error || 'Signup failed.');
     }

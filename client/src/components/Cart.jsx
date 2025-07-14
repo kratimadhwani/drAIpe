@@ -12,12 +12,12 @@ function Cart({ cart, setCart }) {
       ) : (
         <div>
           <div className="cart-list">
-            {cart.map((item, i) => (
+            {cart.map((item, i) => (  
               <div className="cart-item" key={i}>
-                <img src={item.image} alt={item.name} className="cart-item-img" />
+                <img src={item.images} alt={item.name} className="cart-item-img" />
                 <div className="cart-item-info">
                   <div className="cart-item-name">{item.name}</div>
-                  <div className="cart-item-price">${item.price}</div>
+                  <div className="cart-item-price">₹  {item.price}</div>
                 </div>
                 <button className="remove-btn" onClick={() => removeFromCart(i)}>Remove</button>
               </div>
@@ -25,7 +25,7 @@ function Cart({ cart, setCart }) {
           </div>
           <div className="cart-total-row">
             <span>Total:</span>
-            <span className="cart-total">${total}</span>
+            <span className="cart-total">₹{total}</span>
           </div>
           <button className="checkout-btn">Checkout</button>
         </div>
