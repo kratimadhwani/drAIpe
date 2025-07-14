@@ -7,35 +7,35 @@ import { Link } from 'react-router-dom'
 const products = [
   {
     id: 1,
-    name: 'Black Hoodie',
-    price: 432,
+    name: 'Reebok Black Hoodie',
+    price: 1432,
     rating: 4.8,
     reviews: 122,
     image: 'https://m.media-amazon.com/images/I/51M6utSrO8L._SY679_.jpg',
   },
   {
     id: 2,
-    name: 'Black T-Shirt',
-    price: 432,
+    name: 'Decathlon Black T-Shirt',
+    price: 999,
     rating: 4.7,
     reviews: 112,
     image: 'https://chriscross.in/cdn/shop/files/ChrisCrossBlackCottonT-Shirt.jpg?v=1740994605',
   },
   {
     id: 3,
-    name: 'Black Wallet',
-    price: 432,
+    name: 'H&M Leather Black Wallet',
+    price: 759,
     rating: 4.6,
     reviews: 98,
     image: 'https://m.media-amazon.com/images/I/71i4TQF10cL._UY1100_.jpg',
   },
   {
     id: 4,
-    name: 'Black Shoes',
-    price: 432,
+    name: 'Calcetto Black Shoes',
+    price: 1599,
     rating: 4.9,
     reviews: 321,
-    image: 'https://www.shutterstock.com/image-photo/black-shoes-isolated-on-white-600nw-2241492009.jpg',
+    image: 'https://calcetto.in/cdn/shop/files/02.jpg?v=1744199613&width=3840',
   },
 ]
 
@@ -77,7 +77,6 @@ function Home({ cart, setCart }) {
           justifyContent: 'center',
         }}
       >
-        {/* 2x2 grid of product cards (left) */}
         <div
           style={{
             display: 'grid',
@@ -98,7 +97,7 @@ function Home({ cart, setCart }) {
     <img src={product.image} alt={product.name} className="product-img" />
     <div className="product-info">
       <div className="product-name">{product.name}</div>
-      <div className="product-price">${product.price}</div>
+      <div className="product-price">₹{product.price}</div>
       <button
         className="add-cart-btn"
         onClick={() => addToCart(product)}
@@ -123,7 +122,6 @@ function Home({ cart, setCart }) {
 ))}
 
         </div>
-        {/* Big image and heading (right) */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <img src={fashionGroupImg} alt="Fashion Group" style={{ width: '100%', maxWidth: 480, marginBottom: 24 }} />
           <div style={{ fontWeight: 900, fontSize: '2.5rem', textAlign: 'center', marginTop: 12, letterSpacing: '0.02em' }}>

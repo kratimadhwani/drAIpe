@@ -41,12 +41,11 @@ router.post('/', upload.single('image'), async (req, res) => {
 
     let { reply, recommendations } = aiRawResponse;
     ({ reply, recommendations } = extractReplyAndRecommendations(reply, recommendations));
-
+    
     let products = [];
     if (Array.isArray(recommendations) && recommendations.length > 0) {
       const orConditions = [];
       for (const r of recommendations) {
-        // Escape special characters in the recommendation string for regex safety
         const safe = r.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         orConditions.push({ title: { $regex: safe, $options: 'i' } });
         orConditions.push({ description: { $regex: safe, $options: 'i' } });

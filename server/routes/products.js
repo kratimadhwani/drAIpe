@@ -78,36 +78,35 @@ router.get('/accessories', async (req, res) => {
   }
 });
 
-router.get('/jewellery', async (req, res) => {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 50;
-    const skip = (page - 1) * limit;
+// router.get('/jewellery', async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 50;
+//     const skip = (page - 1) * limit;
 
-    const keywordRegex = /(jewel(l)?er(y|ies)|necklace|ring|earring|bracelet|bangle|pendant|chain|anklet|nosepin|brooch)/i;
+//     const keywordRegex = /(jewel(l)?er(y|ies)|necklace|ring|earring|bracelet|bangle|pendant|chain|anklet|nosepin|brooch)/i;
 
-    const query = {
-      $or: [
-        { description: { $regex: keywordRegex } },
-        { name: { $regex: keywordRegex } }
-      ]
-    };
+//     const query = {
+//       $or: [
+//         { description: { $regex: keywordRegex } },
+//         { name: { $regex: keywordRegex } }
+//       ]
+//     };
 
-    const jewelleryProducts = await Product.find(query).skip(skip).limit(limit);
-    const total = await Product.countDocuments(query);
+//     const jewelleryProducts = await Product.find(query).skip(skip).limit(limit);
+//     const total = await Product.countDocuments(query);
 
-    res.json({
-      products: jewelleryProducts,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit)
-    });
-  } catch (err) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+//     res.json({
+//       products: jewelleryProducts,
+//       total,
+//       page,
+//       totalPages: Math.ceil(total / limit)
+//     });
+//   } catch (err) {
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
 
-// GET /api/products/all?page=1&limit=50
 router.get('/all', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -116,7 +115,6 @@ router.get('/all', async (req, res) => {
 
     console.log(skip, limit);
 
-    // Fetch products with pagination
     const [products, total] = await Promise.all([
       Product.find().skip(skip).limit(limit),
       Product.countDocuments(),
@@ -134,8 +132,5 @@ router.get('/all', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-
-module.exports = router;
-
 
 module.exports = router;

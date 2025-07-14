@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import FooterTyping from "./FooterTyping";
 
-// Typing animation hook
 function useTypingText(text, speed = 120) {
   const [displayed, setDisplayed] = useState("");
   useEffect(() => {
@@ -127,7 +126,7 @@ function AISuggestion() {
           {latestProducts.length === 0 && (
             <div style={{ color: '#888' }}>No suggestions yet. Ask the AI for outfit ideas!</div>
           )}
-          {/* Product grid with fixed height and scroll if overflow */}
+
           <div style={{
             flex: 1,
             overflowY: 'auto',
@@ -159,7 +158,7 @@ function AISuggestion() {
               </div>
             ))}
           </div>
-          {/* Pagination Controls: always at the bottom */}
+
           {totalProductPages > 1 && (
             <div style={{
               marginTop: 0,

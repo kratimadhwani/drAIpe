@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import menShoppingImg from '../assets/men shopping.jpg'; // adjust the path as needed
+import menShoppingImg from '../assets/men shopping.jpg'; 
 
 function Men({ cart, setCart }) {
   const [likes, setLikes] = useState({});
@@ -32,7 +32,6 @@ function Men({ cart, setCart }) {
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Background image to the right, behind the cards */}
       <img
         src={menShoppingImg}
         alt="Men Shopping"
@@ -54,7 +53,6 @@ function Men({ cart, setCart }) {
       <h2 style={{ textAlign: 'left', marginBottom: '1.5rem', position: 'relative', zIndex: 1 }}>
         Men’s Collection
       </h2>
-      {/* Add paddingRight so cards don't overlap the image */}
       <div style={{ paddingRight: '300px' }}>
         <div className="product-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', position: 'relative', zIndex: 1 }}>
           {menProducts.map(product => (

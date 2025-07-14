@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 
 function FooterTyping() {
-  // Use non-breaking spaces for wider spacing
   const fullText = "AI\u00A0\u00A0\u00A0\u00A0\u00A0 is here to help";
   const [typedComplete, setTypedComplete] = useState(false);
   const [showDr, setShowDr] = useState(false);
@@ -31,7 +30,6 @@ function FooterTyping() {
         color: "#000",
       }}
     >
-      {/* dr */}
       <span
         style={{
           opacity: showDr ? 1 : 0,
@@ -60,7 +58,6 @@ function FooterTyping() {
         </span>
       )}
 
-      {/* pe */}
       <span
         style={{
           position: "relative",

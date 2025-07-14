@@ -32,7 +32,6 @@ function Women({ cart, setCart }) {
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Background image to the right, behind the cards */}
       <img
         src={womenShoppingImg}
         alt="Women Shopping"
@@ -54,7 +53,6 @@ function Women({ cart, setCart }) {
       <h2 style={{ textAlign: 'left', marginBottom: '1.5rem', position: 'relative', zIndex: 1 }}>
         Women’s Collection
       </h2>
-      {/* Add paddingRight so cards don't overlap the image */}
       <div style={{ paddingRight: '300px' }}>
         <div
           className="product-grid"
